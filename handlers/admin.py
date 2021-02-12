@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 state="*")
 async def admin_menu(msg: Message):
 	kb = InlineKeyboardMarkup(row_width=2)
-	kb.insert(InlineKeyboardButton(text="statistics", callback_data="stat")
-	kb.insert(InlineKeyboardButton(text="texts", callback_data="texts")
-	kb.insert(InlineKeyboardButton(text="mailing", callback_data="mailing")
+	kb.insert(InlineKeyboardButton(text="statistics", callback_data="stat"))
+	kb.insert(InlineKeyboardButton(text="texts", callback_data="texts"))
+	kb.insert(InlineKeyboardButton(text="mailing", callback_data="mailing"))
 	await msg.answer(text="admin menu", reply_markup=kb)
 	
 	
@@ -28,8 +28,10 @@ async def admin_menu(msg: Message):
 async def texts_menu(c: CallbackQuery):
     await c.answer()
     kb = InlineKeyboardMarkup()
-    kb.add(InlineKeyboardButton(text="my projects text", callback_data="edit_text:my_projects")
-    kb.add(InlineKeyboardButton(text="contacts text", callback_data="edit_text:contacts")
+    kb.add(InlineKeyboardButton(text="my projects text", 
+callback_data="edit_text:my_projects"))
+    kb.add(InlineKeyboardButton(text="contacts text", 
+callback_data="edit_text:contacts"))
     kb.add(InlineKeyboardButton(text="back", callback_data="back"))
     
     await c.message.edit_reply_markup(reply_markup=kb)
@@ -77,7 +79,8 @@ async def save_my_projects(msg: Message, state):
 @dp.message_handler( chat_id=SUPERUSER_ID, state=States.contacts)
 async def save_contacts(msg: Message, state):
     kb = InlineKeyboardMarkup()
-    kb.add(InlineKeyboardButton(text="back", callback_data="back"))
+    kb.add(InlineKeyboardButton(text="back", 
+callback_data="back"))
     await msg.answer(text="text saved", reply_markup=kb)
     data["contacts"]=msg.html_text
     dump_data("data.json", data)
