@@ -7,9 +7,6 @@ from pathlib import Path
 
 load_dotenv()
 TOKEN=getenv("TOKEN")
-WEBHOOK_HOST = getenv("WEBHOOK_HOST")
-WEBHOOK_PORT = int(getenv("WEBHOOK_PORT"))
-WEBHOOK_PATH = '/' + TOKEN
 SUPERUSER_ID = getenv("SUPERUSER_ID")
 ID_REGEXP = re.compile(r'#ID(\d+)')
 BASE_DIR = Path(__file__).parent
