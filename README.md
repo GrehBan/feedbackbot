@@ -11,6 +11,7 @@ nano .env
 
 in .env write this:
   `TOKEN=YOUR_TELEGRAM_TOKEN`
+  
   `SUPERUSER_ID=YOUR_TELEGRAM_ID`
 
 ```bash
