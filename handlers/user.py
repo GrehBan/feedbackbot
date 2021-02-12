@@ -38,10 +38,11 @@ async def feedback_msg(msg: Message):
     await msg.answer(text="thanks for contacting, expect a response")
     if msg.content_type != 'text':
         if not msg.caption:
-            msg.caption = f"#ID{msg.from_user.id}"
+            msg.caption = f"<a href=\"tg://user?id={msg.from_user.id}\">{msg.from_user.first_name}</a> #ID{msg.from_user.id}"
         else:
-            msg.caption += f"\n\n#ID{msg.from_user.id}"
+            msg.caption += f"\n\n <a href=\"tg://user?id={msg.from_user.id}\">{msg.from_user.first_name}</a> #ID{msg.from_user.id}"
     else:
-        msg.text += f"\n\n#ID{msg.from_user.id}"
+        msg.text += f"\n\n<a href=\"tg://user?id={msg.from_user.id}\">{msg.from_user.first_name}</a> #ID{msg.from_user.id}"
+
 
     await send(user_id=SUPERUSER_ID, msg=msg, content_type=msg.content_type)
