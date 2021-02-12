@@ -14,7 +14,8 @@ if __name__ == '__main__':
 	from aiogram.utils.executor import start_webhook
 	start_webhook(
         dispatcher=dp,
-        webhook_port=WEBHOOK_PORT,
+        host=WEBHOOK_HOST,
+        port=WEBHOOK_PORT,
         webhook_path=WEBHOOK_PATH,
         skip_updates=True,
         on_startup=on_startup,
