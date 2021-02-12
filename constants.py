@@ -7,7 +7,7 @@ from pathlib import Path
 
 load_dotenv()
 TOKEN=getenv("TOKEN")
-SUPERUSER_ID = getenv("SUPERUSER_ID")
+SUPERUSER_ID = int(getenv("SUPERUSER_ID"))
 ID_REGEXP = re.compile(r'#ID(\d+)')
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / 'data'
