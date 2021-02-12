@@ -25,12 +25,12 @@ async def start_cmd(msg: Message):
 
 @dp.message_handler(text="my projects")
 async def my_projects(msg: Message):
-    await msg.answer(text=data["my_projects"])
+    await msg.answer(text=data["my_projects"], parse_mode='HTML')
 
 
 @dp.message_handler(text="contacts")
 async def contacts(msg: Message):
-    await msg.answer(text=data["contacts"])
+    await msg.answer(text=data["contacts"], parse_mode='HTML')
 
 
 @dp.message_handler(content_types=ContentType.ANY)
