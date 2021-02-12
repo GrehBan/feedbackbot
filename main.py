@@ -1,10 +1,10 @@
 from constants import WEBHOOK_PORT, WEBHOOK_HOST, WEBHOOK_PATH
 
 async def on_startup(dp):
-    await bot.set_webhook(WEBHOOK_HOST+WEBHOOK_PATH)
+    await dp.bot.set_webhook(WEBHOOK_HOST+WEBHOOK_PATH)
 
 async def on_shutdown(dp):
-    await bot.delete_webhook()
+    await dp.bot.delete_webhook()
     await dp.storage.close()
     await dp.storage.wait_closed()
 
