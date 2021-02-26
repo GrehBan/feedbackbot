@@ -1,11 +1,13 @@
 from loader import dp
 import logging
 from constants import data, users, SUPERUSER_ID
-from utils import dump_data, send
+from utils import send
+from utils.db import get_sql, set_sql
 
 from aiogram.dispatcher.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.types.message import ContentType
+
 
 logger = logging.getLogger(__name__)
 
@@ -17,20 +19,24 @@ async def start_cmd(msg: Message):
     kb.insert(KeyboardButton(text="contacts"))
 
     await msg.answer(text="Hi, i'm a feedback bot with @grehban", reply_markup=kb)
-    user_id = str(msg.from_user.id)
-    if user_id not in users:
-        users.update({user_id: {}})
-        dump_data('users.json', users)
+
+    user_id = msg.from_user.id
+    exists = await get_sql("SELECT user_id FROM users WHERE user_id=?", user_id)
+    if not exists:
+        await set_sql("INSERT INTO users(user_id) VALUES(?)", user_id)
+
 
 
 @dp.message_handler(text="my projects")
 async def my_projects(msg: Message):
-    await msg.answer(text=data["my_projects"], parse_mode='HTML')
+    text = await get_sql('SELECT projects FROM texts')[0]
+    await msg.answer(text=text, parse_mode='HTML')
 
 
 @dp.message_handler(text="contacts")
 async def contacts(msg: Message):
-    await msg.answer(text=data["contacts"], parse_mode='HTML')
+    text = await get_sql('SELECT contacts FROM texts')[0]
+    await msg.answer(text=text, parse_mode='HTML')
 
 
 @dp.message_handler(content_types=ContentType.ANY)

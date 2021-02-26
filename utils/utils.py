@@ -1,13 +1,5 @@
 from aiogram.types import Message
-
-from constants import DATA_DIR
-import json
 from aiogram import Bot
-
-
-def dump_data(filename: str, data):
-    with open(DATA_DIR / filename, 'w') as f:
-        json.dump(data, f)
 
 
 async def send(content_type: str, user_id: int, msg: Message,

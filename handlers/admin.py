@@ -1,7 +1,8 @@
 from loader import dp
-from constants import data, SUPERUSER_ID, ID_REGEXP, users
+from constants import  SUPERUSER_ID, ID_REGEXP, users
 import logging
-from utils import dump_data, States
+from utils import States
+from utils.db import set_sql, get_sql
 
 from aiogram.types.message import ContentType
 from aiogram.utils.exceptions import BotBlocked, UserDeactivated
@@ -9,6 +10,7 @@ from aiogram.types import (
     Message, CallbackQuery,
     InlineKeyboardMarkup,
     InlineKeyboardButton)
+
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +62,7 @@ async def edit_text_contacts(c: CallbackQuery):
 
 @dp.callback_query_handler(chat_id=SUPERUSER_ID, text='stat', state="*")
 async def stat(c: CallbackQuery):
+    users = await get_sql('SELECT * FROM users')
     await c.answer()
     kb = InlineKeyboardMarkup()
     kb.add(InlineKeyboardButton(text="back", callback_data="back"))
@@ -71,8 +74,8 @@ async def save_my_projects(msg: Message, state):
     kb = InlineKeyboardMarkup()
     kb.add(InlineKeyboardButton(text="back", callback_data="back"))
     await msg.answer(text="text saved", reply_markup=kb)
-    data["my_projects"] = msg.html_text
-    dump_data("data.json", data)
+    text = msg.html_text
+    await set_sql('UPDATE texts SET projects=?', text)
     await state.finish()
 
 
@@ -82,8 +85,8 @@ async def save_contacts(msg: Message, state):
     kb.add(InlineKeyboardButton(text="back",
                                 callback_data="back"))
     await msg.answer(text="text saved", reply_markup=kb)
-    data["contacts"] = msg.html_text
-    dump_data("data.json", data)
+    text = msg.html_text
+    await set_sql('UPDATE texts SET contacts=?', text)
     await state.finish()
 
 
